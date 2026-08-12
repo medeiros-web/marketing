@@ -80,6 +80,35 @@ export default function ConfiguracoesPage() {
             ))}
           </div>
 
+          {/* Google Ads */}
+          <div className="card-dark rounded-2xl p-6 space-y-4">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="text-yellow-400 text-xl">🟡</span>
+              <h2 className="text-white font-bold">Google Ads</h2>
+            </div>
+            <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-3 text-blue-300 text-xs space-y-1">
+              <div className="font-semibold">Como obter as credenciais:</div>
+              <div>1. <span className="text-white">Customer ID</span> → ads.google.com → canto superior direito (xxx-xxx-xxxx)</div>
+              <div>2. <span className="text-white">Developer Token</span> → ads.google.com → Ferramentas → API Center</div>
+              <div>3. <span className="text-white">Client ID/Secret</span> → console.cloud.google.com → APIs → Credenciais → OAuth 2.0</div>
+            </div>
+            {[
+              { label: "Conta Google vinculada", placeholder: "medeirosassessor.adv@gmail.com", type: "email" },
+              { label: "Customer ID", placeholder: "291-082-5941", type: "text" },
+              { label: "Developer Token", placeholder: "ABcDeFgHiJkLmN...", type: "password" },
+              { label: "Client ID (OAuth)", placeholder: "123456789-abc...apps.googleusercontent.com", type: "text" },
+              { label: "Client Secret (OAuth)", placeholder: "GOCSPX-...", type: "password" },
+              { label: "Refresh Token", placeholder: "1//0e...", type: "password" },
+            ].map((f) => (
+              <div key={f.label}>
+                <label className="text-zinc-400 text-sm mb-1.5 block">{f.label}</label>
+                <input type={f.type} placeholder={f.placeholder}
+                  defaultValue={f.type === "email" ? "medeirosassessor.adv@gmail.com" : ""}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-orange-500/50 text-sm" />
+              </div>
+            ))}
+          </div>
+
           {/* Cron */}
           <div className="card-dark rounded-2xl p-6 space-y-4">
             <div className="flex items-center gap-3 mb-2">
@@ -114,10 +143,12 @@ export default function ConfiguracoesPage() {
               {[
                 { label: "Meta Ads MCP configurado no Claude Desktop", done: false },
                 { label: "Ad Account ID informado", done: false },
+                { label: "Google Ads Customer ID informado", done: false },
+                { label: "Google Ads Developer Token configurado", done: false },
+                { label: "Google Ads OAuth (Client ID + Secret + Refresh Token)", done: false },
                 { label: "OpenAI API Key configurada", done: false },
-                { label: "Supabase conectado", done: false },
-                { label: "Storage bucket criado no Supabase", done: false },
-                { label: "Cron secret configurado", done: false },
+                { label: "Supabase conectado", done: true },
+                { label: "Cron de monitoramento ativo (pg_cron 15min)", done: true },
                 { label: "Alertas WhatsApp/Telegram ativos", done: false },
               ].map((item) => (
                 <div key={item.label} className="flex items-center gap-3 py-2 border-b border-white/5 last:border-0">
@@ -142,7 +173,11 @@ export default function ConfiguracoesPage() {
                 <p>supabase.com → New Project → Connect → API Keys (Legacy) → Copiar keys</p>
               </div>
               <div>
-                <div className="text-orange-400 font-semibold mb-1">3. OpenAI</div>
+                <div className="text-orange-400 font-semibold mb-1">3. Google Ads</div>
+                <p>ads.google.com → Ferramentas → API Center → Developer Token → console.cloud.google.com para OAuth</p>
+              </div>
+              <div>
+                <div className="text-orange-400 font-semibold mb-1">4. OpenAI</div>
                 <p>platform.openai.com → API Keys → Create new key → Copiar</p>
               </div>
             </div>
