@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  marketing:
+    image: ghcr.io/medeiros-web/marketing:latest
+    environment:
+      - NODE_ENV=production
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_SECRET=${ADMIN_SECRET}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE=${SUPABASE_SERVICE_ROLE}
+      - CRON_SECRET=${CRON_SECRET}
+      - GOOGLE_ADS_CUSTOMER_ID=${GOOGLE_ADS_CUSTOMER_ID}
+      - GOOGLE_ADS_EMAIL=${GOOGLE_ADS_EMAIL}
+      - GOOGLE_ADS_CLIENT_ID=${GOOGLE_ADS_CLIENT_ID}
+      - GOOGLE_ADS_CLIENT_SECRET=${GOOGLE_ADS_CLIENT_SECRET}
+      - GOOGLE_ADS_REFRESH_TOKEN=${GOOGLE_ADS_REFRESH_TOKEN}
+    networks:
+      - minha_rede
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=minha_rede"
+        - "traefik.http.routers.marketing.entrypoints=websecure"
+        - "traefik.http.routers.marketing.rule=Host(`marketing.chatatender.ia.br`)"
+        - "traefik.http.routers.marketing.tls=true"
+        - "traefik.http.routers.marketing.tls.certresolver=letsencryptresolver"
+        - "traefik.http.services.marketing.loadbalancer.server.port=3000"
+
+networks:
+  minha_rede:
+    external: true
